@@ -1,0 +1,81 @@
+html, body {
+  background: #EEE;
+}
+
+h1 {
+  text-align: center;
+  width: 100%;
+  color: #DDD;
+  border-bottom: 1px solid #DDD;
+  border-top: 1px solid #DDD;
+  padding: 3rem 0;
+}
+
+.tile {
+  overflow: hidden;
+  max-height: 120px;
+  height: 120px;
+  width: ;
+  text-align: center;
+}
+
+.label {
+  position: relative;
+  top: 80px;
+  font-size: 2rem;
+}
+
+.value {
+  font-size: 5rem;
+  text-shadow: 3px 3px 2px #000;
+  position: absolute;
+  margin: 0 auto;
+}
+
+.value.exiting {
+  animation: .5s value-exiting;
+  opacity: 0;
+}
+
+.value.entering {
+  animation: .5s ease-in value-entering;
+  opacity: 1;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: .7em;
+  border-top: 1px solid #DDD;
+}
+
+@keyframes value-entering {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes value-exiting {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@media (min-width: 80.0rem) {
+  #main-container {
+    padding-top: 30rem;
+  }
+}
