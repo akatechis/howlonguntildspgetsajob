@@ -96,8 +96,8 @@ function initCountdown (targetDate) {
 }
 
 function main () {
-  // const targetDate = dspGetsAJob()
-  const targetDate = tomorrow()
+  const targetDate = dspGetsAJob()
+  // const targetDate = tomorrow()
   initCountdown(targetDate);
 }
 
