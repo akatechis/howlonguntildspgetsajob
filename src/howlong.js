@@ -1,50 +1,8 @@
+import 'babel-polyfill'
 import 'milligram'
-import {
-  differenceInYears,
-  differenceInMonths,
-  differenceInDays,
-  differenceInHours,
-  differenceInMinutes,
-  differenceInSeconds,
-  subYears,
-  subMonths,
-  subDays,
-  subHours,
-  subMinutes,
-  subSeconds,
-  addDays
-} from 'date-fns'
-import setTileValue from './setTileValue'
-
-const Props = [{
-  prop: 'years',
-  diffFn: differenceInYears,
-  subFn: subYears
-}, {
-  prop: 'months',
-  diffFn: differenceInMonths,
-  subFn: subMonths
-}, {
-  prop: 'days',
-  diffFn: differenceInDays,
-  subFn: subDays
-}, {
-  prop: 'hours',
-  diffFn: differenceInHours,
-  subFn: subHours
-}, {
-  prop: 'minutes',
-  diffFn: differenceInMinutes,
-  subFn: subMinutes
-}, {
-  prop: 'seconds',
-  diffFn: differenceInSeconds,
-  subFn: subSeconds
-}]
-
-function renderDiffs (diffs, tiles) {
-  Props.forEach(({ prop }) => setTileValue(tiles[prop], diffs[prop]))
-}
+import { computeDiffs } from './counter'
+import { updateUI } from './userinterface'
+import { playAudio } from './audio'
 
 function getTile (id) {
   const tile = document.getElementById(id)
@@ -70,24 +28,16 @@ function getTiles () {
   return tiles
 }
 
-function initCountdown (targetDate) {
+function beginCountdown (targetDate) {
   const tiles = getTiles()
 
   function frameLoop () {
-    const now = new Date();
+    const now = new Date()
 
-    const diffs = Props.reduce((state, { prop, diffFn, subFn }) => {
-      // for the current prop, compute the diff
-      const thisdiff = diffFn(state.remainder, now)
-      state[prop] = thisdiff
+    const diffs = computeDiffs(now, targetDate)
+    updateUI(diffs, tiles)
 
-      // then subtract it from the remaining
-      state.remainder = subFn(state.remainder, thisdiff)
-
-      return state
-    }, { remainder: targetDate })
-
-    renderDiffs(diffs, tiles)
+    playAudio(diffs)
 
     window.requestAnimationFrame(frameLoop)
   }
@@ -95,19 +45,15 @@ function initCountdown (targetDate) {
   window.requestAnimationFrame(frameLoop)
 }
 
-function main () {
-  const targetDate = dspGetsAJob()
-  // const targetDate = tomorrow()
-  initCountdown(targetDate);
-}
-
 // April 2nd, 2029
 function dspGetsAJob () {
   return new Date(2029, 3, 2)
 }
 
-function tomorrow () {
-  return addDays(new Date(), 3)
+function main () {
+  const targetDate = dspGetsAJob()
+  // const targetDate = testDate()
+  beginCountdown(targetDate)
 }
 
 main()

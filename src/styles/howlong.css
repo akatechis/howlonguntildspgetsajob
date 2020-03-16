@@ -5,7 +5,6 @@ html, body {
 h1 {
   text-align: center;
   width: 100%;
-  color: #DDD;
   border-bottom: 1px solid #DDD;
   border-top: 1px solid #DDD;
   padding: 3rem 0;
